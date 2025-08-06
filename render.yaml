@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: mvp-board-app
+    runtime: python
+    buildCommand: |
+      # Extract the application from the zip archive
+      python - <<'PY'
+import zipfile
+zipfile.ZipFile('mvp_board_app_deploy.zip').extractall('.')
+PY
+      # Install Python dependencies for the Flask app
+      pip install --no-cache-dir -r requirements.txt
+    startCommand: gunicorn app:app
